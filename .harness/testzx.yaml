@@ -27,15 +27,6 @@ pipeline:
           execution:
             steps:
               - step:
-                  type: Run
-                  name: build
-                  identifier: build
-                  spec:
-                    shell: Sh
-                    command: |-
-                      npm i
-                      npm run build:check
-              - step:
                   type: Plugin
                   name: builds
                   identifier: builds
@@ -45,3 +36,18 @@ pipeline:
                     privileged: true
                     settings:
                       uses: actions/checkout@v3
+              - step:
+                  type: Plugin
+                  name: GHA
+                  identifier: GHA
+                  spec:
+                    connectorRef: Docker_Hub
+                    image: plugins/github-actions
+                    privileged: true
+                    settings:
+                      uses: slackapi/slack-github-action@v1.22.0
+                      env:
+                        SLACK_WEBHOOK_URL: https://hooks.slack.com/workflows/T0KET35U1/ETC
+                      with:
+                        payload:
+                          message: hello there
