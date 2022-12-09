@@ -38,12 +38,49 @@ pipeline:
                       uses: actions/checkout@v3
               - step:
                   type: Run
-                  name: test-ubuntu
+                  name: build check
                   identifier: testubuntu
                   spec:
-                    connectorRef: DhrubajyotiDocker
-                    image: actions/checkout@v3
                     shell: Sh
                     command: |-
                       npm i
                       npm run build:check
+              - step:
+                  type: Run
+                  name: coverage
+                  identifier: coverage
+                  spec:
+                    shell: Sh
+                    command: |-
+                      npm i
+                      npm run coverage
+                    envVariables:
+                      FORCE_COLOR: "3"
+                  timeout: 1m
+              - step:
+                  type: Run
+                  name: code-style
+                  identifier: codestyle
+                  spec:
+                    shell: Sh
+                    command: |-
+                      npm i
+                      npm run fmt:check
+              - step:
+                  type: Run
+                  name: types
+                  identifier: types
+                  spec:
+                    shell: Sh
+                    command: |-
+                      npm run build
+                      npm run test:types
+              - step:
+                  type: Run
+                  name: circular
+                  identifier: circular
+                  spec:
+                    shell: Sh
+                    command: |-
+                      npm i
+                      npm run circular
