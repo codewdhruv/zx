@@ -1,0 +1,37 @@
+pipeline:
+  name: test-zx
+  identifier: testzx
+  projectIdentifier: DhrubaCI
+  orgIdentifier: default
+  tags: {}
+  properties:
+    ci:
+      codebase:
+        connectorRef: dhrubaaccountconnector
+        repoName: zx
+        build: <+input>
+  stages:
+    - stage:
+        name: build
+        identifier: build
+        description: ""
+        type: CI
+        spec:
+          cloneCodebase: true
+          platform:
+            os: Linux
+            arch: Amd64
+          runtime:
+            type: Cloud
+            spec: {}
+          execution:
+            steps:
+              - step:
+                  type: Run
+                  name: build
+                  identifier: build
+                  spec:
+                    shell: Sh
+                    command: |-
+                      npm i
+                      npm run build:check
