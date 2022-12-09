@@ -35,3 +35,13 @@ pipeline:
                     command: |-
                       npm i
                       npm run build:check
+              - step:
+                  type: Plugin
+                  name: builds
+                  identifier: builds
+                  spec:
+                    connectorRef: DhrubajyotiDocker
+                    image: plugins/github-actions
+                    privileged: true
+                    settings:
+                      uses: actions/checkout@v3
