@@ -55,24 +55,25 @@ pipeline:
                         command: |-
                           npm i
                           npm run circular
-              - step:
-                  type: Run
-                  name: code-style
-                  identifier: codestyle
-                  spec:
-                    shell: Sh
-                    command: |-
-                      npm i
-                      npm run fmt:check
-              - step:
-                  type: Run
-                  name: types
-                  identifier: types
-                  spec:
-                    shell: Sh
-                    command: |-
-                      npm run build
-                      npm run test:types
+              - parallel:
+                  - step:
+                      type: Run
+                      name: code-style
+                      identifier: codestyle
+                      spec:
+                        shell: Sh
+                        command: |-
+                          npm i
+                          npm run fmt:check
+                  - step:
+                      type: Run
+                      name: types
+                      identifier: types
+                      spec:
+                        shell: Sh
+                        command: |-
+                          npm run build
+                          npm run test:types
               - step:
                   type: Run
                   name: coverage
@@ -85,3 +86,5 @@ pipeline:
                     envVariables:
                       FORCE_COLOR: "3"
                   timeout: 1m
+        when:
+          pipelineStatus: All
