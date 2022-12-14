@@ -88,3 +88,31 @@ pipeline:
                   timeout: 1m
         when:
           pipelineStatus: All
+    - stage:
+        name: test
+        identifier: test
+        description: ""
+        type: CI
+        spec:
+          cloneCodebase: true
+          platform:
+            os: Linux
+            arch: Amd64
+          runtime:
+            type: Cloud
+            spec: {}
+          execution:
+            steps:
+              - step:
+                  type: Run
+                  name: use nodejs
+                  identifier: use_nodejs
+                  spec:
+                    shell: Sh
+                    command: |-
+                      npm i
+                      npm test
+                    envVariables:
+                      FORCE_COLOR: "3"
+                  description: not testing for nodejs versions
+                  timeout: 1m
