@@ -39,6 +39,8 @@ pipeline:
                       FORCE_COLOR: "3"
                   description: not testing for nodejs versions
                   timeout: 1m
+        when:
+          pipelineStatus: All
     - stage:
         name: build
         identifier: build
