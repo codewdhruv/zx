@@ -56,7 +56,7 @@ pipeline:
                     stageStatus: All
                   failureStrategies: []
         when:
-          pipelineStatus: All
+          pipelineStatus: Success
     - stage:
         name: build
         identifier: build
