@@ -36,15 +36,43 @@ pipeline:
                     privileged: true
                     settings:
                       uses: actions/checkout@v3
-              - step:
-                  type: Run
-                  name: build check
-                  identifier: testubuntu
-                  spec:
-                    shell: Sh
-                    command: |-
-                      npm i
-                      npm run build:check
+              - parallel:
+                  - step:
+                      type: Run
+                      name: build check
+                      identifier: testubuntu
+                      spec:
+                        shell: Sh
+                        command: |-
+                          npm i
+                          npm run build:check
+                  - step:
+                      type: Run
+                      name: code-style
+                      identifier: codestyle
+                      spec:
+                        shell: Sh
+                        command: |-
+                          npm i
+                          npm run fmt:check
+                  - step:
+                      type: Run
+                      name: types
+                      identifier: types
+                      spec:
+                        shell: Sh
+                        command: |-
+                          npm run build
+                          npm run test:types
+                  - step:
+                      type: Run
+                      name: circular
+                      identifier: circular
+                      spec:
+                        shell: Sh
+                        command: |-
+                          npm i
+                          npm run circular
               - step:
                   type: Run
                   name: coverage
@@ -57,30 +85,3 @@ pipeline:
                     envVariables:
                       FORCE_COLOR: "3"
                   timeout: 1m
-              - step:
-                  type: Run
-                  name: code-style
-                  identifier: codestyle
-                  spec:
-                    shell: Sh
-                    command: |-
-                      npm i
-                      npm run fmt:check
-              - step:
-                  type: Run
-                  name: types
-                  identifier: types
-                  spec:
-                    shell: Sh
-                    command: |-
-                      npm run build
-                      npm run test:types
-              - step:
-                  type: Run
-                  name: circular
-                  identifier: circular
-                  spec:
-                    shell: Sh
-                    command: |-
-                      npm i
-                      npm run circular
