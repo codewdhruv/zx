@@ -64,7 +64,7 @@ pipeline:
                         shell: Sh
                         command: |-
                           npm i
-                          npm run fmt:check
+                          # npm run fmt:check
                   - step:
                       type: Run
                       name: types
