@@ -39,6 +39,22 @@ pipeline:
                       FORCE_COLOR: "3"
                   description: not testing for nodejs versions
                   timeout: 1m
+              - step:
+                  type: Run
+                  name: use nodejsx
+                  identifier: use_nodejsx
+                  spec:
+                    shell: Sh
+                    command: |-
+                      npm i
+                      npm run build
+                      npx uvu test win32
+                    envVariables:
+                      FORCE_COLOR: "3"
+                  timeout: 1m
+                  when:
+                    stageStatus: All
+                  failureStrategies: []
         when:
           pipelineStatus: All
     - stage:
