@@ -158,3 +158,5 @@ pipeline:
                     image: actions/setup-node@v3
                     settings:
                       nodeversion: "18"
+        when:
+          pipelineStatus: All
